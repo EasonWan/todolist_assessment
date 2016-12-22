@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+
+<div class="form">
+    
+      
+      <div class="tab-content">
+        <div id="signup">   
+          <h1>Sign Up for Free</h1>
+          
+          <form action="/users" method="post">
+ 
+          <div class="field-wrap">
+            <label>
+              Email Address<span class="req">*</span>
+            </label>
+            <input type="email" name="user[email]" required autocomplete="off"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Set A Password<span class="req">*</span>
+            </label>
+            <input type="password" name="user[password]" required autocomplete="off"/>
+          </div>
+        
+          <%= button_to "Sign up", users_path, method: :post %>
+          </form>
+
+        </div>
+        
+        <div id="login">   
+          <h1>Welcome Back!</h1>
+          
+          <form action="/users" method="post">
+          <input type="hidden" name="authenticity_token", value="">
+        
+            <div class="field-wrap">
+            <label>
+              Email Address<span class="req">*</span>
+            </label>
+            <input type="email" name="keyed[email]" required autocomplete="off"/>
+          </div>
+          
+          <div class="field-wrap">
+            <label>
+              Password<span class="req">*</span>
+            </label>
+            <input type="password"required name="keyed[password]" required autocomplete="off"/>
+          </div>
+          
+          <p class="forgot"><a href="#">Forgot Password?</a></p>
+          
+          <button class="button button-block"/>Log In</button>
+          
+          </form>
+
+        </div>
+        
+      </div><!-- tab-content -->
+      
+</div> <!-- /form -->
+
+
+<div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/sdk.js#xfbml=1&version=v2.8&appId=352623395110038";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<script>
+
+// Load the SDK asynchronously
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/en_US/sdk.js";
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '352623395110038',
+        cookie     : true, //enable cookie to allowthe server access
+        xfbml      : true, // parse social plugins on this page
+        version    : 'v2.8' // use version 2.8
+      });
+      /* FB.getLoginStatus(function(response) {
+            console.log(response);
+      });*/
+      // FB.AppEvents.logPageView();
+    };
+
+    function fblogin() {
+      FB.getLoginStatus(function(response){
+        if(response.status == 'connected') {
+          getUserProfile();
+        }else{
+          // alert('error :check your console');
+        
+          FB.login();
+          fblogin();
+            console.log(response);
+            $("#status").empty().text("Please login with facebook");
+          }
+      }};
+    }
+    function getUserProfile() {
+      console.log("Fetching user information.... ");
+      FB.api('me?fields=id,name,email,gender,picture', function(response) {
+      console.log(response);
+        var profilePic = 'http://graph.facebook.com'+response.id+"/picture?type=large";
+      var userInfo = <"img src='"+profilePic+"'><br/>";
+         userInfo += response.name+" ("+response.gender+")<br/>";
+          userInfo += response.email+"<br/>"
+      $("status").empty().html(userInfo);
+    }};
+  }
+  /*function login(){
+    FB.login();
+  }*/
+
+    </script>
+  <fb:login-button scope="public_profile.email" onlogin="fblogin();" data-size="xlarge">
+  </fb:login-button>
+  <div id="fb-root"></div>
+  <!-- button onclick "fblogin()" >login</button> -->
+  <div id="status"></div>
+  <script src="https:ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  </body>
+  </html>
