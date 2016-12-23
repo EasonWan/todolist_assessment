@@ -36,21 +36,21 @@
         <div id="login">   
           <h1>Welcome Back!</h1>
           
-          <form action="/users" method="post">
+          <form action="/lists" method="get">
           <input type="hidden" name="authenticity_token", value="">
         
             <div class="field-wrap">
             <label>
               Email Address<span class="req">*</span>
             </label>
-            <input type="email" name="keyed[email]" required autocomplete="off"/>
+            <input type="email" name="user[email]" required autocomplete="off"/>
           </div>
           
           <div class="field-wrap">
             <label>
               Password<span class="req">*</span>
             </label>
-            <input type="password"required name="keyed[password]" required autocomplete="off"/>
+            <input type="password"required name="user[password]" required autocomplete="off"/>
           </div>
           
           <p class="forgot"><a href="#">Forgot Password?</a></p>
